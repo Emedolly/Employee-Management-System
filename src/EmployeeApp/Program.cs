@@ -10,4 +10,14 @@ foreach (Employee employee in employees)
 {
     Console.WriteLine(employee.Name);
 }
+EmployeeService service = new EmployeeService();
+while (true)
+{
+    Console.WriteLine("Enter an ID:");
+    string choice = Console.ReadLine();
+    switch (choice)
+    {
+        case "1":
+    }
+}
 Console.WriteLine("Hello, World!");
