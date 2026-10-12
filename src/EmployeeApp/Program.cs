@@ -12,6 +12,7 @@ while (running)
     Console.WriteLine("3.Search");
     Console.WriteLine("4.Delete");
     Console.WriteLine("5.Exit");
+    Console.WriteLine("6:Update");
     string input = Console.ReadLine();
     switch (input)
     {
@@ -78,6 +79,13 @@ while (running)
         {
             running = false;
             break;
+        }
+        case "6":
+        {
+           Console.WriteLine("Enter id to update:");
+           int id = int.Parse(Console.ReadLine());
+           service.UpdateById(id, "Emeema", "ICandD", 30000);
+           break;
         }
     }
 }

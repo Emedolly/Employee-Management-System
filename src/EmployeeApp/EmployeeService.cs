@@ -39,4 +39,20 @@ public class EmployeeService
             return true;
         }
     }
+
+    public bool UpdateById(int id, string name, string department, decimal salary)
+    {
+        var result = GetById(id);
+        if (result == null)
+        {
+            return false;
+        }
+        else
+        {
+            result.Name = name;
+            result.Department = department;
+            result.Salary = salary;
+            return true;
+        }
+    }
 }
