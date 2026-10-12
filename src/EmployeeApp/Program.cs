@@ -1,23 +1,83 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.Diagnostics;
 using EmployeeApp;
 
-List<Employee> employees = new List<Employee>();
-employees.Add(new Employee(1, "A", "RD", 123));
-employees.Add(new Employee(2, "B", "RD1", 1234));
-employees.Add(new Employee(3, "C", "RD2", 1235));
-foreach (Employee employee in employees)
-{
-    Console.WriteLine(employee.Name);
-}
 EmployeeService service = new EmployeeService();
-while (true)
+bool running = true;
+while (running)
 {
-    Console.WriteLine("Enter an ID:");
-    string choice = Console.ReadLine();
-    switch (choice)
+    Console.WriteLine("1.Add");
+    Console.WriteLine("2.View");
+    Console.WriteLine("3.Search");
+    Console.WriteLine("4.Delete");
+    Console.WriteLine("5.Exit");
+    string input = Console.ReadLine();
+    switch (input)
     {
         case "1":
+        {
+            Console.WriteLine("Enter iD:");
+            //int id = int.Parse(Console.ReadLine());
+            if (!int.TryParse(Console.ReadLine(), out int id)) // not a number? TryParse gives false
+            {
+                Console.WriteLine("Invalid number");
+                break; // leave the switch, the while loop shows the menu again
+            }
+            Console.WriteLine("Enter name:");
+            string name = Console.ReadLine();
+            Console.WriteLine("Enter department:");
+            string department = Console.ReadLine();
+            Console.WriteLine("Enter salary:");
+            if (!decimal.TryParse(Console.ReadLine(), out decimal salary))
+            {
+                Console.WriteLine("Invalid input");
+            }
+            Employee employee = new Employee(id, name, department, salary);
+            service.AddEmployee(employee);
+            Console.WriteLine("Employee added");
+            break;
+        }
+        case "2":
+        {
+            List<Employee> result = new List<Employee>();
+            result = service.GetAll();
+            foreach (Employee emp in result)
+            {
+                Console.WriteLine($"{emp.Id} | {emp.Name} | {emp.Department} | {emp.Salary}");
+            }
+            break;
+        }
+        case "3":
+        {
+            Console.WriteLine("Enter id:");
+            int id = int.Parse(Console.ReadLine());
+            Employee employee = service.GetById(id);
+            if (employee != null)
+            {
+                Console.WriteLine($"{employee.Id} | {employee.Name} | {employee.Salary}");
+            }
+            else
+            {
+                Console.WriteLine("Employee not found");
+            }
+            break;
+        }
+        case "4":
+        {
+            Console.WriteLine("Enter iD TO DELETE:");
+            int id = int.Parse(Console.ReadLine());
+            bool result = service.DeleteById(id);
+            if (result)
+            {
+                Console.WriteLine("Employee deleted");
+            }
+            break;
+        }
+        case "5":
+        {
+            running = false;
+            break;
+        }
     }
 }
-Console.WriteLine("Hello, World!");
