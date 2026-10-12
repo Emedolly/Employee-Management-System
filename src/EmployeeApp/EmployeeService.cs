@@ -55,4 +55,19 @@ public class EmployeeService
             return true;
         }
     }
+
+    public decimal CalculateNetSalary(int id)
+    {
+        Employee emp = GetById(id);
+        if (emp == null)
+        {
+            return 0;
+        }
+        else
+        {
+            decimal bonus = emp.Salary * 0.10m;
+            decimal tax = emp.Salary * 0.05m;
+            return emp.Salary + bonus - tax;
+        }
+    }
 }

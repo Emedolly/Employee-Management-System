@@ -13,6 +13,7 @@ while (running)
     Console.WriteLine("4.Delete");
     Console.WriteLine("5.Exit");
     Console.WriteLine("6:Update");
+    Console.WriteLine("7:CalculateSalary");
     string input = Console.ReadLine();
     switch (input)
     {
@@ -86,6 +87,14 @@ while (running)
            int id = int.Parse(Console.ReadLine());
            service.UpdateById(id, "Emeema", "ICandD", 30000);
            break;
+        }
+        case "7":
+        {
+            Console.WriteLine("Enter id to calculate:");
+            int id = int.Parse(Console.ReadLine());
+            decimal result = service.CalculateNetSalary(id);
+            Console.WriteLine($"Salary: {result}");
+            break;
         }
     }
 }
