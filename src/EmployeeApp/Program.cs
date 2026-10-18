@@ -14,6 +14,7 @@ while (running)
     Console.WriteLine("5.Exit");
     Console.WriteLine("6:Update");
     Console.WriteLine("7:CalculateSalary");
+    Console.WriteLine("8.Save to File");
     string input = Console.ReadLine();
     switch (input)
     {
@@ -94,6 +95,13 @@ while (running)
             int id = int.Parse(Console.ReadLine());
             decimal result = service.CalculateNetSalary(id);
             Console.WriteLine($"Salary: {result}");
+            break;
+        }
+        case "8":
+        {
+            string path = "/Users/emeema/Desktop/text/employee.csv";
+            service.SaveToFile(path);
+            Console.WriteLine("Employee saved");
             break;
         }
     }

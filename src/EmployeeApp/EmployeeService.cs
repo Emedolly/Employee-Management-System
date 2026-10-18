@@ -70,4 +70,14 @@ public class EmployeeService
             return emp.Salary + bonus - tax;
         }
     }
+
+    public void SaveToFile(string path)
+    {
+        List<string> lines = new List<string>();
+        foreach (Employee employee in this.employees)
+        {
+            lines.Add($"{employee.Id},{employee.Name},{employee.Department},{employee.Salary}");
+        }
+        File.WriteAllLines(path, lines);
+    }
 }
