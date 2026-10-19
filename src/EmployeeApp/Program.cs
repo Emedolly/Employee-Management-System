@@ -15,6 +15,7 @@ while (running)
     Console.WriteLine("6:Update");
     Console.WriteLine("7:CalculateSalary");
     Console.WriteLine("8.Save to File");
+    Console.WriteLine("9.Load from File");
     string input = Console.ReadLine();
     switch (input)
     {
@@ -102,6 +103,16 @@ while (running)
             string path = "/Users/emeema/Desktop/text/employee.csv";
             service.SaveToFile(path);
             Console.WriteLine("Employee saved");
+            break;
+        }
+        case "9":
+        {
+            string path = "/Users/emeema/Desktop/text/employee.csv";
+            service.LoadFromFile(path);
+            foreach (Employee emp in service.GetAll())
+            {
+                Console.WriteLine($"{emp.Id} | {emp.Name} | {emp.Department} | {emp.Salary}");
+            }
             break;
         }
     }

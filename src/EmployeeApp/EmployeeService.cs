@@ -80,4 +80,37 @@ public class EmployeeService
         }
         File.WriteAllLines(path, lines);
     }
+
+    public void LoadFromFile(string path)
+    {
+        if (!File.Exists(path))
+        {
+            return;
+        }
+        else
+        {
+            string[] lines = File.ReadAllLines(path);
+            employees.Clear();
+            foreach (var line in lines)
+            {
+                string[] parts = line.Split(',');
+                if (parts.Length != 4)
+                {
+                    continue;
+                }
+
+                if (!int.TryParse(parts[0], out int id))
+                {
+                    continue;
+                }
+
+                if (!decimal.TryParse(parts[3], out decimal salary))
+                {
+                    continue;
+                }
+                employees.Add(new Employee(id, parts[1], parts[2], salary));
+            }
+          
+        }
+    }
 }
