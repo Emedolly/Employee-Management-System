@@ -48,7 +48,8 @@ while (running)
             result = service.GetAll();
             foreach (Employee emp in result)
             {
-                Console.WriteLine($"{emp.Id} | {emp.Name} | {emp.Department} | {emp.Salary}");
+                //Console.WriteLine($"{emp.Id} | {emp.Name} | {emp.Department} | {emp.Salary}");
+                Console.WriteLine(emp.ToDisplay());
             }
             break;
         }
@@ -59,7 +60,8 @@ while (running)
             Employee employee = service.GetById(id);
             if (employee != null)
             {
-                Console.WriteLine($"{employee.Id} | {employee.Name} | {employee.Salary}");
+                //Console.WriteLine($"{employee.Id} | {employee.Name} | {employee.Salary}");
+                employee.ToDisplay();
             }
             else
             {

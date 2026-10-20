@@ -76,7 +76,8 @@ public class EmployeeService
         List<string> lines = new List<string>();
         foreach (Employee employee in this.employees)
         {
-            lines.Add($"{employee.Id},{employee.Name},{employee.Department},{employee.Salary}");
+            //lines.Add($"{employee.Id},{employee.Name},{employee.Department},{employee.Salary}");
+            lines.Add(employee.ToCsvLine());
         }
         File.WriteAllLines(path, lines);
     }
