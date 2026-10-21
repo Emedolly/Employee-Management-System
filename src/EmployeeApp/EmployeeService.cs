@@ -2,23 +2,25 @@ namespace EmployeeApp;
 
 public class EmployeeService
 {
-    private List<Employee> employees = new List<Employee>();
-    public event Action<Employee> EmployeeAdded; 
+    private readonly List<Employee> _employees = new List<Employee>();
+    public event Action<Employee> EmployeeAdded; //the doorbell
 
     public void AddEmployee(Employee employee)
     {
-        this.employees.Add(employee);
-        this.EmployeeAdded?.Invoke(employee);
+        if (GetById(employee.Id) != null)
+            throw new ArgumentException("Id already exists");
+        _employees.Add(employee);
+        EmployeeAdded?.Invoke(employee); //ring the bell at last
     }
 
     public List<Employee> GetAll()
     {
-        return this.employees;
+        return _employees;
     }
 
     public Employee GetById(int id)
     {
-        foreach (Employee employee in this.employees)
+        foreach (Employee employee in _employees)
         {
             if (employee.Id == id)
             {
@@ -37,25 +39,21 @@ public class EmployeeService
         }
         else
         {
-            this.employees.Remove(result);
+            _employees.Remove(result);
             return true;
         }
     }
 
     public bool UpdateById(int id, string name, string department, decimal salary)
     {
-        var result = GetById(id);
-        if (result == null)
-        {
+        Employee employee = GetById(id);
+        if (employee == null)
             return false;
-        }
-        else
-        {
-            result.Name = name;
-            result.Department = department;
-            result.Salary = salary;
-            return true;
-        }
+
+        employee.Salary = salary;                                 // FIRST: a bad salary stops everything
+        employee.Name = name;
+        employee.Department = department;
+        return true;
     }
 
     public decimal CalculateNetSalary(int id)
@@ -76,7 +74,7 @@ public class EmployeeService
     public void SaveToFile(string path)
     {
         List<string> lines = new List<string>();
-        foreach (Employee employee in this.employees)
+        foreach (Employee employee in _employees)
         {
             //lines.Add($"{employee.Id},{employee.Name},{employee.Department},{employee.Salary}");
             lines.Add(employee.ToCsvLine());
@@ -93,7 +91,7 @@ public class EmployeeService
         else
         {
             string[] lines = File.ReadAllLines(path);
-            employees.Clear();
+            _employees.Clear();
             foreach (var line in lines)
             {
                 string[] parts = line.Split(',');
@@ -111,7 +109,7 @@ public class EmployeeService
                 {
                     continue;
                 }
-                employees.Add(new Employee(id, parts[1], parts[2], salary));
+                _employees.Add(new Employee(id, parts[1], parts[2], salary));
             }
           
         }
@@ -120,7 +118,7 @@ public class EmployeeService
     public List<Employee> Filter(Func<Employee, bool> rule)
     {
         List<Employee> result = new List<Employee>();
-        foreach (Employee employee in this.employees)
+        foreach (Employee employee in _employees)
         {
             if (rule(employee))
             {
