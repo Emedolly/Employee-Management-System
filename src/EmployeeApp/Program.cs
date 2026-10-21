@@ -106,17 +106,10 @@ while (running)
 
     static void SearchEmployee(EmployeeService service)
     {
-        if (!ReadInt("Enter ID: ", out int id)) return;
+        if (!ReadInt("Enter Id: ", out int id)) return;
+
         Employee employee = service.GetById(id);
-        if (employee != null)
-        {
-            //Console.WriteLine($"{employee.Id} | {employee.Name} | {employee.Salary}");
-            employee.ToDisplay();
-        }
-        else
-        {
-            Console.WriteLine("Employee not found");
-        }
+        Console.WriteLine(employee == null ? "Employee not found" : employee.ToDisplay());
     }
 
     static void UpdateEmployee(EmployeeService service)
@@ -213,78 +206,5 @@ while (running)
             Console.WriteLine("Wrong choice");
         }
     }
-    // case "5":
-    // {
-    //     running = false;
-    //     break;
-    // }
-    // case "6":
-    // {
-    //     Console.WriteLine("Enter id to update:");
-    //     int id = int.Parse(Console.ReadLine());
-    //     service.UpdateById(id, "Emeema", "ICandD", 30000);
-    //     break;
-    // }
-    // case "7":
-    // {
-    //     Console.WriteLine("Enter id to calculate:");
-    //     int id = int.Parse(Console.ReadLine());
-    //     decimal result = service.CalculateNetSalary(id);
-    //     Console.WriteLine($"Salary: {result}");
-    //     break;
-    // }
-    // case "8":
-    // {
-    //     string path = "/Users/emeema/Desktop/text/employee.csv";
-    //     service.SaveToFile(path);
-    //     Console.WriteLine("Employee saved");
-    //     break;
-    // }
-    // case "9":
-    // {
-    //     string path = "/Users/emeema/Desktop/text/employee.csv";
-    //     service.LoadFromFile(path);
-    //     foreach (Employee emp in service.GetAll())
-    //     {
-    //         Console.WriteLine($"{emp.Id} | {emp.Name} | {emp.Department} | {emp.Salary}");
-    //     }
-    //
-    //     break;
-    // }
-    // case "10":
-    // {
-    //     Console.WriteLine("1.By department");
-    //     Console.WriteLine("2.By Salary above amount");
-    //     Console.Write("choose:");
-    //     List<Employee> matches = new List<Employee>();
-    //     string filterChoice = Console.ReadLine();
-    //     if (filterChoice == "1")
-    //     {
-    //         Console.WriteLine("Enter department:");
-    //         string department = Console.ReadLine();
-    //         matches = service.Filter(e => e.Department == department);
-    //     }
-    //     else if (filterChoice == "2")
-    //     {
-    //         Console.WriteLine("Enter salary:");
-    //         if (!decimal.TryParse(Console.ReadLine(), out decimal salary))
-    //         {
-    //             Console.WriteLine("Invalid input");
-    //             break;
-    //         }
-    //
-    //         matches = service.Filter(e => e.Salary == salary);
-    //     }
-    //     else
-    //     {
-    //         Console.WriteLine("Invalid input");
-    //     }
-    //
-    //     foreach (Employee emp in matches)
-    //     {
-    //         Console.WriteLine(emp.ToDisplay());
-    //     }
-    //
-    //     break;
-    // }
+    
 }
