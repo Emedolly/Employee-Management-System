@@ -4,6 +4,7 @@ using System.Diagnostics;
 using EmployeeApp;
 
 EmployeeService service = new EmployeeService();
+service.EmployeeAdded += employee =>Console.WriteLine($"Notification:{employee.Name} was added"); 
 bool running = true;
 while (running)
 {
@@ -16,6 +17,7 @@ while (running)
     Console.WriteLine("7:CalculateSalary");
     Console.WriteLine("8.Save to File");
     Console.WriteLine("9.Load from File");
+    Console.WriteLine("10.Filter");
     string input = Console.ReadLine();
     switch (input)
     {
@@ -28,6 +30,7 @@ while (running)
                 Console.WriteLine("Invalid number");
                 break; // leave the switch, the while loop shows the menu again
             }
+
             Console.WriteLine("Enter name:");
             string name = Console.ReadLine();
             Console.WriteLine("Enter department:");
@@ -37,6 +40,7 @@ while (running)
             {
                 Console.WriteLine("Invalid input");
             }
+
             Employee employee = new Employee(id, name, department, salary);
             service.AddEmployee(employee);
             Console.WriteLine("Employee added");
@@ -51,6 +55,7 @@ while (running)
                 //Console.WriteLine($"{emp.Id} | {emp.Name} | {emp.Department} | {emp.Salary}");
                 Console.WriteLine(emp.ToDisplay());
             }
+
             break;
         }
         case "3":
@@ -67,6 +72,7 @@ while (running)
             {
                 Console.WriteLine("Employee not found");
             }
+
             break;
         }
         case "4":
@@ -78,6 +84,7 @@ while (running)
             {
                 Console.WriteLine("Employee deleted");
             }
+
             break;
         }
         case "5":
@@ -87,10 +94,10 @@ while (running)
         }
         case "6":
         {
-           Console.WriteLine("Enter id to update:");
-           int id = int.Parse(Console.ReadLine());
-           service.UpdateById(id, "Emeema", "ICandD", 30000);
-           break;
+            Console.WriteLine("Enter id to update:");
+            int id = int.Parse(Console.ReadLine());
+            service.UpdateById(id, "Emeema", "ICandD", 30000);
+            break;
         }
         case "7":
         {
@@ -114,6 +121,41 @@ while (running)
             foreach (Employee emp in service.GetAll())
             {
                 Console.WriteLine($"{emp.Id} | {emp.Name} | {emp.Department} | {emp.Salary}");
+            }
+
+            break;
+        }
+        case "10":
+        {
+            Console.WriteLine("1.By department");
+            Console.WriteLine("2.By Salary above amount");
+            Console.Write("choose:");
+            List<Employee> matches = new List<Employee>();
+            string filterChoice = Console.ReadLine();
+            if (filterChoice == "1")
+            {
+                Console.WriteLine("Enter department:");
+                string department = Console.ReadLine();
+                matches = service.Filter(e=>e.Department==department);
+            }
+            else if(filterChoice == "2")
+            {
+                Console.WriteLine("Enter salary:");
+                if (!decimal.TryParse(Console.ReadLine(), out decimal salary))
+                {
+                    Console.WriteLine("Invalid input");
+                    break;
+                }
+                matches = service.Filter(e=>e.Salary==salary);
+            }
+            else
+            {
+                Console.WriteLine("Invalid input");
+            }
+
+            foreach (Employee emp in matches)
+            {
+                Console.WriteLine(emp.ToDisplay());
             }
             break;
         }

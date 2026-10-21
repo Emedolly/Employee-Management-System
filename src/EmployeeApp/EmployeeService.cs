@@ -3,10 +3,12 @@ namespace EmployeeApp;
 public class EmployeeService
 {
     private List<Employee> employees = new List<Employee>();
+    public event Action<Employee> EmployeeAdded; 
 
     public void AddEmployee(Employee employee)
     {
         this.employees.Add(employee);
+        this.EmployeeAdded?.Invoke(employee);
     }
 
     public List<Employee> GetAll()
@@ -113,5 +115,18 @@ public class EmployeeService
             }
           
         }
+    }
+
+    public List<Employee> Filter(Func<Employee, bool> rule)
+    {
+        List<Employee> result = new List<Employee>();
+        foreach (Employee employee in this.employees)
+        {
+            if (rule(employee))
+            {
+                result.Add(employee);
+            }
+        }
+        return result;
     }
 }
