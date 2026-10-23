@@ -20,14 +20,15 @@ public class EmployeeService
 
     public Employee GetById(int id)
     {
-        foreach (Employee employee in _employees)
-        {
-            if (employee.Id == id)
-            {
-                return employee;
-            }
-        }
-        return null;
+        return _employees.FirstOrDefault(e=>e.Id==id);
+        // foreach (Employee employee in _employees)
+        // {
+        //     if (employee.Id == id)
+        //     {
+        //         return employee;
+        //     }
+        // }
+        // return null;
     }
 
     public bool DeleteById(int id)
@@ -117,14 +118,20 @@ public class EmployeeService
 
     public List<Employee> Filter(Func<Employee, bool> rule)
     {
-        List<Employee> result = new List<Employee>();
-        foreach (Employee employee in _employees)
-        {
-            if (rule(employee))
-            {
-                result.Add(employee);
-            }
-        }
-        return result;
+        // List<Employee> result = new List<Employee>();
+        // foreach (Employee employee in _employees)
+        // {
+        //     if (rule(employee))
+        //     {
+        //         result.Add(employee);
+        //     }
+        // }
+        // return result;
+        return _employees.Where(rule).ToList(); // Where asks the judge about each employee. ToList makes a real list
+    }
+
+    public List<Employee> GetSortedBySalary()
+    {
+        return _employees.OrderByDescending(e=>e.Salary).ToList();
     }
 }
