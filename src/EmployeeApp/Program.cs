@@ -24,6 +24,10 @@ while (running)
         case "7": Save(service, filepath); break;
         case "8": Load(service, filepath); break;
         case "9": FilterEmployees(service); break;
+        case "10": SortBySalary(service); break;
+        case "11": HighestPaid(service); break;
+        case "12": TotalSalary(service); break;
+        case "13": CountByDepartment(service); break;
         case "0": running = false; break;
         default:
             Console.WriteLine("Invalid choice"); break;
@@ -40,6 +44,10 @@ while (running)
         Console.WriteLine("7:Save to File");
         Console.WriteLine("8.Load from File");
         Console.WriteLine("9.Filter");
+        Console.WriteLine("10.Sort by salary (high to low)");
+        Console.WriteLine("11.Highest paid");
+        Console.WriteLine("12.Total salary");
+        Console.WriteLine("13.Count by department");
         Console.WriteLine("0.Exit");
         Console.Write("Choose: ");
     }
@@ -206,5 +214,29 @@ while (running)
             Console.WriteLine("Wrong choice");
         }
     }
-    
+
+    static void SortBySalary(EmployeeService service)
+    {
+        PrintList(service.GetSortedBySalary());
+    }
+
+    static void HighestPaid(EmployeeService service)
+    {
+        Employee employee = service.GetHighestPaid();
+        Console.WriteLine(employee == null ? "Employee not found" : employee.ToDisplay());
+    }
+
+    static void TotalSalary(EmployeeService service)
+    {
+        var result = service.GetTotalSalary();
+        Console.WriteLine($"Total salary: {result}");
+    }
+    static void CountByDepartment(EmployeeService service)
+    {
+        var result = service.GetCountByDepartment();
+        foreach (KeyValuePair<string,int> pair in result)
+        {
+            Console.WriteLine($"{pair.Key}: {pair.Value}");
+        }
+    }
 }

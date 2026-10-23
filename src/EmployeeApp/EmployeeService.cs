@@ -134,4 +134,19 @@ public class EmployeeService
     {
         return _employees.OrderByDescending(e=>e.Salary).ToList();
     }
+
+    public Employee GetHighestPaid()
+    {
+        return _employees.OrderByDescending(e=>e.Salary).FirstOrDefault();
+    }
+
+    public decimal GetTotalSalary()
+    {
+        return _employees.Sum(e => e.Salary);
+    }
+
+    public Dictionary<string, int> GetCountByDepartment()
+    {
+        return _employees.GroupBy(e=>e.Department).ToDictionary(g=>g.Key, g=>g.Count());
+    }
 }
