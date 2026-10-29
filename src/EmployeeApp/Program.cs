@@ -5,7 +5,8 @@ using System.Xml.Linq;
 using EmployeeApp;
 
 string filepath = "employees.txt";
-EmployeeService service = new EmployeeService();
+IEmployeeRepository repository = new EmployeeRepository();      // make the plug
+EmployeeService service = new EmployeeService(repository);      // hand it to the service;
 service.EmployeeAdded += emp => Console.WriteLine($"Notification:{emp.Name} was added"); // subscribe ONCE
 service.LoadFromFile(filepath); // data survives closing the app
 bool running = true;
