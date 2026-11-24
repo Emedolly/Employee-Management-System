@@ -8,6 +8,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 var app = builder.Build();
+app.MapGet("/hello", () => "Welcome to employee management system");
 app.UseSwagger();
 app.UseSwaggerUI();
 // Configure the HTTP request pipeline.
