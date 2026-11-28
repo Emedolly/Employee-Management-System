@@ -16,7 +16,18 @@ var employees = new List<Employee>
     new Employee { Id = 2, Department = "IT", Name = "Eme" },
 };
 app.MapGet("/api/employees", () => employees);
-var result = app.MapGet("/api/employes/{id}", (int id)=> employees.FirstOrDefault(employees => employees.Id == id));
+app.MapGet("/api/employees/{id}", (int id)=>
+{
+    var employee = employees.FirstOrDefault(employees => employees.Id == id);
+    if (employee != null)
+    {
+        return Results.Ok(employee);
+    }
+    else
+    {
+        return Results.NotFound();
+    }
+});
 
 app.MapGet("/hello", () => "Welcome to employee management system");
 app.UseSwagger();
